@@ -16,6 +16,7 @@ const SECRET_KEY = process.env.SECRET_KEY
 app.post("/register", async (req, res) => {
   try {
     const data = req.body;
+    console.log(data)
 
     //Validation
     if (!data.email || !data.password || !data.firstName || !data.lastName || !data.role || !data.department) {
@@ -25,7 +26,7 @@ app.post("/register", async (req, res) => {
     }
 
     // Check if user already exists
-    const checkUserQuery = `SELECT id FROM users WHERE email = ?`;
+    const checkUserQuery = `SELECT user_id FROM users WHERE email = ?`;
     const [existingUser] = await conn.query(checkUserQuery, [data.email]);
     
     if ((existingUser as any[]).length > 0) {
@@ -70,8 +71,7 @@ app.post("/register", async (req, res) => {
 
 // SIGN IN
 app.post("/signin", async (req, res) => {
-  const { email, password} = req.body;
-
+  const { email, password} = req.body
   try {
     if (!email || !password) {
       return res.status(400).json({ message: "Email and Password are required" });
@@ -93,16 +93,18 @@ app.post("/signin", async (req, res) => {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    const token = jwt.sign({id:user.id, email:user.email},SECRET_KEY as string,{
+    const token = jwt.sign({id:user.user_id, email:user.email},SECRET_KEY as string,{
       expiresIn: "1h"
     })
     
     res.status(200).json({ 
       message: "Login Successful",
       token: token,
-      user:{
-        user:user.id
-      }
+      user_id: user.user_id,
+      firstname: user.first_name,
+      lastname: user.last_name,
+      role: user.role
+      
     })
   } catch (error) {
     console.error("Signin Error", error);
