@@ -16,7 +16,7 @@ const SECRET_KEY = process.env.SECRET_KEY
 app.post("/register", async (req, res) => {
   try {
     const data = req.body;
-    console.log(data)
+    console.log(data)   
 
     //Validation
     if (!data.email || !data.password || !data.firstName || !data.lastName || !data.role || !data.department) {
@@ -37,13 +37,14 @@ app.post("/register", async (req, res) => {
 
     const query = `
       INSERT INTO users 
-      (first_name, middle_name, last_name, role, department, license_number, hospital_id, email, phone_number, password_hash)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (first_name, middle_name, last_name, gender,role, department, license_number, hospital_id, email, phone_number, password)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
     `;
     const values = [
       data.firstName || '',
       data.middleName || '',
       data.lastName || '',
+      data.gender || '',
       data.role || '',
       data.department || '',
       data.licenseNumber || '',
@@ -68,9 +69,8 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 });
-
 // SIGN IN
-app.post("/signin", async (req, res) => {
+app.post("/signin", async (req, res) => { 
   const { email, password} = req.body
   try {
     if (!email || !password) {
@@ -86,7 +86,7 @@ app.post("/signin", async (req, res) => {
     }
 
     const user: any = (rows as any[])[0];
-    const match = await bcrypt.compare(password, user.password_hash);
+    const match = await bcrypt.compare(password, user.password);
     
 
     if (!match) {
