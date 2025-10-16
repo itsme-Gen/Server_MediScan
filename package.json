@@ -7,7 +7,8 @@
     "server1": "ts-node src/Authentication/Authentication.ts",
     "server2": "ts-node src/FetchUser/fetchuser.ts",
     "server3": "ts-node src/patientVerification/verification.ts",
-    "start": "concurrently \"npm run server1\" \"npm run server2\" \"npm run server3\""
+    "server4": "ts-node src/MedicalInfo/sentMedicalInfo.ts",
+    "start": "concurrently \"npm run server1\" \"npm run server2\" \"npm run server3\" \"npm run server4\""
   },
   "keywords": [],
   "author": "",
