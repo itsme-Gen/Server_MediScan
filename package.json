@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server1": "ts-node src/Authentication/Authentication.ts",
+    "server2": "ts-node src/FetchUser/fetchuser.ts",
+    "server3": "ts-node src/patientVerification/verification.ts",
+    "start": "concurrently \"npm run server1\" \"npm run server2\" \"npm run server3\""
   },
   "keywords": [],
   "author": "",
@@ -17,6 +21,7 @@
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.5.2",
+    "concurrently": "^9.2.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },

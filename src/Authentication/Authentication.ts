@@ -4,7 +4,8 @@ import bcrypt from "bcrypt";
 import conn from "../db_conn/db_conn";
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
-dotenv.config();
+import path  from "path"
+dotenv.config({ path: path.resolve(__dirname, "./.env") });
 
 const app = express();
 app.use(cors());
